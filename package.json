@@ -1,0 +1,35 @@
+{
+  "name": "crudoperations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "clean": "rimraf build && mkdir build",
+    "build": "npm run clean && babel controllers routes validator server.js --out-dir build",
+
+ "eslint": "npx eslint ./build/*",
+
+ "lint:fix": "npx eslint --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.3.4",
+    "body-parser": "^1.20.2",
+    "eslint": "^8.36.0",
+    "express": "^4.18.2",
+    "joi": "^17.8.4",
+    "nodemon": "^2.0.21",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/eslint-parser": "^7.21.3",
+    "@babel/preset-env": "^7.20.2"
+  }
+}
