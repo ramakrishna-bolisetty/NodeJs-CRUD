@@ -1,5 +1,8 @@
-const { v4: uuidv4 } = require("uuid");
-const { validateSchema } = require("../validator/validator.js");
+const { v4: nuuidv4 } = require('uuid');
+const { validateSChema } = require('../validator/validator');
+const { SUCCESS, ERROR } = require('../config.js');
+
+
 const users = [];
 
 const getUsers = (req, res) => {
@@ -11,13 +14,13 @@ const createUser = (req, res) => {
     const { error, value } = validateSchema(user);
     if (error) {
         console.log(error);
-        res.status(400).json(error.details);
+        res.status(ERROR).json(error.details);
     }
     try {
         users.push(user);
-        return res.status(200).json(value);
+        return res.status(SUCCESS).json(value);
     } catch (error) {
-        return res.status(400).json(error);
+        return res.status(ERROR).json(error);
     }
 };
 
@@ -28,12 +31,12 @@ const getUser = (req, res) => {
             return user.id === userId && user.isDeleted !== true;
         });
         if (currUser) {
-            return res.status(200).json(currUser);
+            return res.status(SUCCESS).json(currUser);
         } else {
-            return res.status(400).json({ message: "User does not exist" });
+            return res.status(ERROR).json({ message: 'User does not exist' });
         }
     } catch (error) {
-        return res.status(400).json(error);
+        return res.status(ERROR).json(error);
     }
 };
 const deleteUser = (req, res) => {
@@ -44,12 +47,12 @@ const deleteUser = (req, res) => {
         });
         if (user) {
             user.isDeleted = true;
-            return res.status(200).json("Deleted Successfully");
+            return res.status(SUCCESS).json('Deleted Successfully');
         } else {
-            return res.status(400).json({ message: "User does not exist" });
+            return res.status(ERROR).json({ message: 'User does not exist' });
         }
     } catch (error) {
-        return res.status(400).json(error);
+        return res.status(ERROR).json(error);
     }
 };
 const updateUser = (req, res) => {
@@ -68,15 +71,15 @@ const updateUser = (req, res) => {
             const { error, value } = validateSchema(currUser);
             if (error) {
                 console.log(error);
-                return res.status(400).json(error.details);
+                return res.status(SUCCESS).json(error.details);
             } else {
-                return res.status(200).json(value);
+                return res.status(ERROR).json(value);
             }
         } else {
-            return res.status(400).json({ message: "User does not exist" });
+            return res.status(ERROR).json({ message: 'User does not exist' });
         }
     } catch (error) {
-        return res.status(400).json(error);
+        return res.status(ERROR).json(error);
     }
 };
 
@@ -93,20 +96,20 @@ const autoSuggestUsers = (req, res) => {
 
         if (matchedUsers.length === 0) {
             return res
-                .status(400)
-                .json({ message: "No users matching the substring" });
+                .status(ERROR)
+                .json({ message: 'No users matching the substring' });
         }
 
         matchedUsers.sort(compare);
-        return res.status(200).json(matchedUsers.slice(0, limit));
+        return res.status(SUCCESS).json(matchedUsers.slice(0, limit));
     } catch (error) {
-        return res.status(400).json(error);
+        return res.status(ERROR).json(error);
     }
 };
 compare = (user1, user2) => {
-    if (user1.login > user2.login) return 1;
-    if (user1.login < user2.login) return -1;
-    return 0;
+    if (user1.login > user2.login)
+     return 1;
+    return -1;
 };
 module.exports = {
     getUsers,

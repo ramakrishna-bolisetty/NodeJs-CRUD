@@ -6,7 +6,6 @@ const router = require('./routes/users.js');
 app.use(bodyParser.json());
 app.use('/', router);
 
-
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
